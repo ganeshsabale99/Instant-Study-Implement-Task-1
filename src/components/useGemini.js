@@ -15,7 +15,14 @@ export async function getSummary(text) {
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
-  const output = response.text();
+//   const output = response.text();
+
+let output = response.text().trim();
+
+if (output.startsWith("```")) {
+  output = output.replace(/```json|```/g, "").trim();
+}
+
 
   try {
     return JSON.parse(output);
